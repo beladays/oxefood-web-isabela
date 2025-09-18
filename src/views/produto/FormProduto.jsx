@@ -1,9 +1,10 @@
 import InputMask from 'comigo-tech-react-input-mask';
 import React from "react";
 import axios from "axios";
+import { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 
-export default function FormCliente () {
+export default function FormProduto () {
    const [codigo, setCodigo] = useState();
    const [titulo, setTitulo] = useState();
    const [descricao, setDescricao] = useState();
@@ -13,13 +14,14 @@ export default function FormCliente () {
 
       function salvar() {
 
-	//	let clienteRequest = {
-	//	     nome: nome,
-	//	     cpf: cpf,
-	//	     dataNascimento: dataNascimento,
-	//	     foneCelular: foneCelular,
-	//	     foneFixo: foneFixo
-	//	}
+		let produtoRequest = {
+            codigo: codigo,
+            titulo: titulo,
+            descricao: descricao,
+            valorUnitario: valorUnitario,
+            tempoEntregaMinimo: tempoEntregaMinimo,
+            tempoEntregaMaximo: tempoEntregaMaximo
+    	}
 	
 		axios.post("http://localhost:8080/api/produto", produtoRequest)
 		.then((response) => {
@@ -29,10 +31,8 @@ export default function FormCliente () {
 		     console.log('Erro ao incluir o produto.')
 		})
 	}
-}
 
 
-export default function FormProduto () {
 
     return(
         <div>
