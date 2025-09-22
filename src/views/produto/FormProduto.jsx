@@ -1,8 +1,11 @@
 import InputMask from 'comigo-tech-react-input-mask';
+
 import React from "react";
 import axios from "axios";
+
 import { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import axios from "axios";
 
 export default function FormProduto () {
    const [codigo, setCodigo] = useState();
@@ -12,9 +15,10 @@ export default function FormProduto () {
    const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
    const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
 
-      function salvar() {
+   function salvar() {
 
 		let produtoRequest = {
+
             codigo: codigo,
             titulo: titulo,
             descricao: descricao,
@@ -22,6 +26,8 @@ export default function FormProduto () {
             tempoEntregaMinimo: tempoEntregaMinimo,
             tempoEntregaMaximo: tempoEntregaMaximo
     	}
+
+
 	
 		axios.post("http://localhost:8080/api/produto", produtoRequest)
 		.then((response) => {
@@ -30,9 +36,6 @@ export default function FormProduto () {
 		.catch((error) => {
 		     console.log('Erro ao incluir o produto.')
 		})
-	}
-
-
 
     return(
         <div>
@@ -95,7 +98,7 @@ export default function FormProduto () {
                             width={6}
                            >
                                 <InputMask 
-                                mask="999,99" 
+                                
                                 value={valorUnitario}
 			                    onChange={e => setValorUnitario(e.target.value)}
                             /> 
@@ -106,7 +109,7 @@ export default function FormProduto () {
                             width={6}
                            >
                                 <InputMask 
-                                mask="999" 
+                                
                                 placeholder="30"
                                 value={tempoEntregaMinimo}
 			                    onChange={e => setTempoEntregaMinimo(e.target.value)}
@@ -118,7 +121,7 @@ export default function FormProduto () {
                             width={6}
                            >
                                 <InputMask 
-                                mask="999" 
+                                
                                 placeholder="40"
                                 value={tempoEntregaMaximo}
 			                    onChange={e => setTempoEntregaMaximo(e.target.value)}
@@ -165,4 +168,5 @@ export default function FormProduto () {
 
     );
 
+   }
 }
