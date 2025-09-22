@@ -1,11 +1,8 @@
 import InputMask from 'comigo-tech-react-input-mask';
-
-import React from "react";
-import axios from "axios";
-
 import { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import axios from "axios";
+
 
 export default function FormProduto () {
    const [codigo, setCodigo] = useState();
@@ -27,8 +24,6 @@ export default function FormProduto () {
             tempoEntregaMaximo: tempoEntregaMaximo
     	}
 
-
-	
 		axios.post("http://localhost:8080/api/produto", produtoRequest)
 		.then((response) => {
 		     console.log('Produto cadastrado com sucesso.')
@@ -36,6 +31,7 @@ export default function FormProduto () {
 		.catch((error) => {
 		     console.log('Erro ao incluir o produto.')
 		})
+    }
 
     return(
         <div>
@@ -169,4 +165,3 @@ export default function FormProduto () {
     );
 
    }
-}
