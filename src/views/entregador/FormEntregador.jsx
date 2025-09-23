@@ -2,6 +2,7 @@ import InputMask from 'comigo-tech-react-input-mask';
 import { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import axios from "axios";
+import MenuSistema from '../../MenuSistema';
 
 export default function FormEntregador () {
    const [nome, setNome] = useState();
@@ -21,6 +22,8 @@ export default function FormEntregador () {
    //const [enderecoUf, setEnderecoUf] = useState();
    const [enderecoUf, setEnderecoUf] = useState("");
    const [ativo, setAtivo] = useState();
+
+   
 
    function salvar() {
     let dataFormatada = dataNascimento ? dataNascimento.replace(/-/g, "/") : "";
@@ -94,8 +97,10 @@ export default function FormEntregador () {
 
     return(
         <div>
-            <div style={{marginTop:'3%'}}>
 
+             <MenuSistema tela={'entregador'} />
+             
+            <div style={{marginTop:'3%'}}>
                 <Container textAlign='justified'>
                 <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
 
