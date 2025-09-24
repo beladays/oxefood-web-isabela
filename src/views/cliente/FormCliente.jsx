@@ -1,9 +1,9 @@
 import InputMask from 'comigo-tech-react-input-mask';
-import { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import axios from "axios";
 import MenuSistema from '../../MenuSistema';
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function FormCliente () {
    const [nome, setNome] = useState();
@@ -11,6 +11,35 @@ export default function FormCliente () {
    const [dataNascimento, setDataNascimento] = useState();
    const [foneCelular, setFoneCelular] = useState();
    const [foneFixo, setFoneFixo] = useState();
+
+
+
+//função q vai ser executada quando a tela for aberta
+const { state } = useLocation();
+const [idCliente, setIdCliente] = useState();
+useEffect(() => {
+       		if (state != null && state.id != null) {
+           		axios.get("http://localhost:8080/api/cliente/" + state.id)
+.then((response) => {
+               	    	       setIdCliente(response.data.id)
+               	    	       setNome(response.data.nome)
+               	    	       setCpf(response.data.cpf)
+               	    	       setDataNascimento(formatarData(response.data.dataNascimento))
+               	    	       setFoneCelular(response.data.foneCelular)
+               	    	       setFoneFixo(response.data.foneFixo)
+           		})
+       		}
+   	}, [state])
+
+function formatarData(dataParam) {
+
+       if (dataParam === null || dataParam === '' || dataParam === undefined) {
+           return ''
+       }
+
+       let arrayData = dataParam.split('-');
+       return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
+   }
 
    function salvar() {
 
@@ -21,16 +50,17 @@ export default function FormCliente () {
 		     foneCelular: foneCelular,
 		     foneFixo: foneFixo
 		}
-	
-		axios.post("http://localhost:8080/api/cliente", clienteRequest)
-		.then((response) => {
-		     console.log('Cliente cadastrado com sucesso.')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir o um cliente.')
-		})
-	}
 
+         if (idCliente != null) { //Alteração:
+           axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
+           .then((response) => { console.log('Cliente alterado com sucesso.') })
+           .catch((error) => { console.log('Erro ao alter um cliente.') })
+       } else { //Cadastro:
+           axios.post("http://localhost:8080/api/cliente", clienteRequest)
+           .then((response) => { console.log('Cliente cadastrado com sucesso.') })
+           .catch((error) => { console.log('Erro ao incluir o cliente.') })
+       }
+}
 
 
     return (
@@ -41,11 +71,17 @@ export default function FormCliente () {
 
             <div style={{marginTop: '3%'}}>
 
-                <Container textAlign='justified' >
+            <Container textAlign='justified' >
 
-                    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+{ idCliente === undefined &&
+    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+}
+{ idCliente !== undefined &&
+    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+}
 
-                    <Divider />
+<Divider />
+  
 
                     <div style={{marginTop: '4%'}}>
 
