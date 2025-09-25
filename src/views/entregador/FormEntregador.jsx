@@ -36,7 +36,7 @@ useEffect(() => {
              setNome(response.data.nome)
              setCpf(response.data.cpf)
 		         setRg(response.data.rg)
-             setDataNascimento(response.data.dataNascimento)
+             setDataNascimento(formatarData(response.data.dataNascimento))
              setFoneCelular(response.data.foneCelular)
              setFoneFixo(response.data.foneFixo)
              setQtdEntregasRealizadas(response.data.qtdEntregasRealizadas)
@@ -53,6 +53,16 @@ useEffect(() => {
            		})
        		}
    	}, [state])
+
+    function formatarData(dataParam) {
+
+       if (dataParam === null || dataParam === '' || dataParam === undefined) {
+           return ''
+       }
+
+       let arrayData = dataParam.split('-');
+       return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
+   }
 
    
    function salvar() {
@@ -79,17 +89,16 @@ useEffect(() => {
 		}
 	  console.log("Dados enviados:", entregadorRequest);
 
-		axios.post("http://localhost:8080/api/entregador", entregadorRequest)
-		.then((response) => {
-		     console.log('Entregador cadastrado com sucesso.')
-		})
-		.catch((error) => {
-  if (error.response) {
-    console.error("Erro ao incluir o entregador:", error.response.data);
-  } else {
-    console.error("Erro de rede:", error.message);
-  }
-});
+	 if (idEntregador != null) { //Alteração:
+           axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
+           .then((response) => { console.log('Entregador alterado com sucesso.') })
+           .catch((error) => { console.log('Erro ao alter um entregador.') })
+       } else { //Cadastro:
+           axios.post("http://localhost:8080/api/entregador", entregadorRequest)
+           .then((response) => { console.log('Entregador cadastrado com sucesso.') })
+           .catch((error) => { console.log('Erro ao incluir o entregador.') })
+       }
+
 
     }
 
@@ -136,7 +145,7 @@ useEffect(() => {
 { idEntregador === undefined &&
     <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
 }
-{ idEntregador != undefined &&
+{ idEntregador !== undefined &&
     <h2> <span style={{color: 'darkgray'}}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
 }
 
