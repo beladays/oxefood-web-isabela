@@ -1,12 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Divider, Icon, Table, Modal, Header } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 export default function ListEntregador () {
 
    const [lista, setLista] = useState([]);
+   const [openModal, setOpenModal] = useState(false);
+   const [idRemover, setIdRemover] = useState();
+   
+      
 
    useEffect(() => {
        carregarLista();
@@ -28,6 +32,32 @@ function formatarData(dataParam) {
        let arrayData = dataParam.split('-');
        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
    }
+
+   //muda a função openmodal pra true e pega o id e guarda ele na variavel setidremover
+   function confirmaRemover(id) {
+       setOpenModal(true)
+       setIdRemover(id)
+   }
+//função síncrona= espera resposta do back end p continuar
+   async function remover() {
+
+       await axios.delete('http://localhost:8080/api/entregador/' + idRemover)
+       .then((response) => {
+ 
+           console.log('Entregador removido com sucesso.')
+ 
+           axios.get("http://localhost:8080/api/entregador")
+           .then((response) => {
+               setLista(response.data)
+           })
+       })
+       .catch((error) => {
+           console.log('Erro ao remover um entregador.')
+       })
+       setOpenModal(false)
+   }
+
+
 return(
        <div>
            <MenuSistema tela={'entregador'} />
@@ -111,7 +141,7 @@ return(
                                                circular
                                                color='red'
                                                title='Clique aqui para remover este entregador'
-                                               icon>
+                                               icon   onClick={e => confirmaRemover(entregador.id)}>
                                                    <Icon name='trash' />
                                            </Button>
 
@@ -124,6 +154,27 @@ return(
                    </div>
                </Container>
            </div>
+
+                <Modal
+               basic
+               onClose={() => setOpenModal(false)}
+               onOpen={() => setOpenModal(true)}
+               open={openModal}
+         >
+               <Header icon>
+                   <Icon name='trash' />
+                   <div style={{marginTop: '5%'}}> Tem certeza que deseja remover esse registro? </div>
+               </Header>
+               <Modal.Actions>
+                   <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
+                       <Icon name='remove' /> Não
+                   </Button>
+                   <Button color='green' inverted onClick={() => remover()}>
+                       <Icon name='checkmark' /> Sim
+                   </Button>
+               </Modal.Actions>
+         </Modal>
+
 
        </div>
    )
