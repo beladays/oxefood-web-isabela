@@ -95,7 +95,7 @@ useEffect(() => {
                            width={6}
                            >
                             <InputMask 
-                            mask="9999999999" 
+                            //mask="9999999999" 
                             maskChar={null}
                             placeholder="Informe o código do produto"
                             value={codigo}
@@ -126,7 +126,7 @@ useEffect(() => {
                             width={6}
                            >
                                 <InputMask 
-                                
+                                mask="99.99" 
                                 value={valorUnitario}
 			                    onChange={e => setValorUnitario(e.target.value)}
                             /> 
@@ -137,7 +137,7 @@ useEffect(() => {
                             width={6}
                            >
                                 <InputMask 
-                                
+                                mask="999" 
                                 placeholder="30"
                                 value={tempoEntregaMinimo}
 			                    onChange={e => setTempoEntregaMinimo(e.target.value)}
@@ -149,7 +149,7 @@ useEffect(() => {
                             width={6}
                            >
                                 <InputMask 
-                                
+                                mask="999" 
                                 placeholder="40"
                                 value={tempoEntregaMaximo}
 			                    onChange={e => setTempoEntregaMaximo(e.target.value)}

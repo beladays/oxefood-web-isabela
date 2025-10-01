@@ -161,93 +161,89 @@ useEffect(() => {
                             fluid
                             label='Nome'
                             maxLength="100"
+                            value={nome}
                             onChange={e => setNome(e.target.value)}
                             />
 
                            <Form.Input
-                           required
-                           fluid
-                           label='CPF'
-                           width={6}
-                            onChange={e => setCpf(e.target.value)}
-                           >
-                            <InputMask 
-                          //  mask="999-999-999-99" 
-                            maskChar={null}
-                            onChange={e => setCpf(e.target.value)}
-                            /> 
+                            required
+                            fluid
+                            label='CPF'>
+                                <InputMask
+                                    required
+                                    mask="999.999.999-99"
+                                    value={cpf}
+			                        onChange={e => setCpf(e.target.value)}
+                                    /> 
                             </Form.Input>
 
-                            <Form.Input
-                           fluid
-                           label='RG'
-                           width={6}
-                           >
-                            <InputMask 
-                          //  mask="99-999-999" 
-                            maskChar={null}
-                            onChange={e => setRg(e.target.value)}
-                            /> 
+                           <Form.Input
+                            required
+                            fluid
+                            label='RG'>
+                                <InputMask
+                                    required
+                                    mask="99.999.999-9"
+                                    value={rg}
+                                    onChange={e => setRg(e.target.value)}
+                                    /> 
                             </Form.Input>
 
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Input
+                          <Form.Input
                            fluid
                            label='DT Nascimento'
                            width={6}
                            >
-                          <InputMask 
-                            mask="99/99/9999"
+                            <InputMask 
+                             mask="99/99/9999"
                              maskChar={null}
-                            placeholder='Ex: 20/06/2006'
-                            onChange={e => setDataNascimento(e.target.value)}
-                            /> 
+                             placeholder='Ex: 20/06/2006'
+                             value={dataNascimento}
+                             onChange={e => setDataNascimento(e.target.value)}
+                             /> 
                             </Form.Input>
+
+                          <Form.Input
+                            fluid
+                            label='Fone Celular'
+                            width={6}>
+                            <InputMask 
+                             mask="(99) 9999.9999"
+                             value={foneCelular}
+                             onChange={e => setFoneCelular(e.target.value)}
+                             /> 
+                            </Form.Input>
+
                             <Form.Input
-                           required
-                           fluid
-                           label='Fone Celular'
-                           width={6}
-                           >
-                            <InputMask 
-                          //  mask="(99)99999-9999" 
-                            maskChar={null}
-                            onChange={e => setFoneCelular(e.target.value)}
-                            /> 
+                            fluid
+                            label='Fone Fixo'
+                            width={6}>
+                             <InputMask 
+                              mask="(99) 9999.9999"
+                              value={foneFixo}
+                              onChange={e => setFoneFixo(e.target.value)}
+                              /> 
                             </Form.Input>
+
                              <Form.Input
-                           fluid
-                           label='Fone Fixo'
-                           width={6}
-                           >
-                            <InputMask 
-                        //    mask="9999-9999" 
-                            maskChar={null}
-                            onChange={e => setFoneFixo(e.target.value)}
-                            /> 
-                            </Form.Input>
+                             fluid
+                             label='QNTD Entregs Realizadas'
+                             width={6}
+                             value={qtdEntregasRealizadas}
+                             onChange={e => setQtdEntregasRealizadas(e.target.value)}
+                             />
+                        
                              <Form.Input
-                           fluid
-                           label='QNTD Entregs Realizadas'
-                           width={6}
-                           >
+                             fluid
+                             label='Valor por frete'
+                             width={6}
+                             >
                             <InputMask 
-                         //   mask="99999" 
-                            maskChar={null}
-                            onChange={e => setQtdEntregasRealizadas(e.target.value)}
-                            /> 
-                            </Form.Input>
-                            
-                             <Form.Input
-                           fluid
-                           label='Valor por frete'
-                           width={6}
-                           >
-                            <InputMask 
-                            
-                            maskChar={null}
+                            mask="99.99"
+                            value={valorFrete}
                             onChange={e => setValorFrete(e.target.value)}
                             /> 
                             </Form.Input>
@@ -259,10 +255,10 @@ useEffect(() => {
                             fluid
                             label='Rua'
                             width={6}
+                            value={enderecoRua}
                             onChange={e => setEnderecoRua(e.target.value)}
-                           >
-                
-                        </Form.Input>
+                           />
+
                             <Form.Input
                             fluid
                             label='Número'
@@ -270,11 +266,10 @@ useEffect(() => {
                            >
                                 <InputMask 
                                 mask="999" 
+                                value={enderecoNumero}
                                 onChange={e => setEnderecoNumero(e.target.value)}
-
                             /> 
                             </Form.Input>
-                        
                         </Form.Group>
 
                         <Form.Group>
@@ -283,30 +278,28 @@ useEffect(() => {
                             fluid
                             label='Bairro'
                             width={6}
+                            value={enderecoBairro}
                             onChange={e => setEnderecoBairro(e.target.value)}
-                           >
-                
-                        </Form.Input>
+                           /> 
+
                             <Form.Input
                             fluid
                             label='Cidade'
                             width={6}
+                            value={enderecoCidade}
                             onChange={e => setEnderecoCidade(e.target.value)}
-                           >
-        
-                            </Form.Input>
-                               <Form.Input
+                           />
+
+                            <Form.Input
                             fluid
                             label='CEP'
-                            width={6}
-                           >
-                                <InputMask 
-                          //      mask="99-999-999" 
-                                onChange={e => setEnderecoCep(e.target.value)}
-
+                            width={6}>
+                             <InputMask 
+                              mask="99-999-999" 
+                              value={enderecoCep}
+                              onChange={e => setEnderecoCep(e.target.value)}
                             /> 
                             </Form.Input>
-                        
                         </Form.Group>
 
                         <Form.Group widths="equal">
@@ -323,7 +316,7 @@ useEffect(() => {
                             
                           <Form.Group>
                             <Form.Input
-                            required
+                            //required
                             fluid
                             label='Complemento'
                             width={6}
