@@ -4,6 +4,7 @@ import axios from "axios";
 import MenuSistema from '../../MenuSistema';
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormCliente () {
    const [nome, setNome] = useState();
@@ -11,8 +12,6 @@ export default function FormCliente () {
    const [dataNascimento, setDataNascimento] = useState();
    const [foneCelular, setFoneCelular] = useState();
    const [foneFixo, setFoneFixo] = useState();
-
-
 
 //função q vai ser executada quando a tela for aberta
 const { state } = useLocation();
@@ -53,16 +52,29 @@ function formatarData(dataParam) {
 
          if (idCliente != null) { //Alteração:
            axios.put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
-           .then((response) => { console.log('Cliente alterado com sucesso.') })
-           .catch((error) => { console.log('Erro ao alter um cliente.') })
-       } else { //Cadastro:
+           .then((response) => {
+            // console.log('Cliente alterado com sucesso.') })
+                notifySuccess('Cliente  com sucesso.')
+})
+           .catch((error) => { 
+           // console.log('Erro ao alter um cliente.') })
+           if (error.response.data.errors != undefined) {
+       		for (let i = 0; i < error.response.data.errors.length; i++) {
+	       		notifyError(error.response.data.errors[i].defaultMessage)
+	    	}
+	} else {
+		notifyError(error.response.data.message)
+	}
+})
+
+        } else { //Cadastro:
            axios.post("http://localhost:8080/api/cliente", clienteRequest)
-           .then((response) => { console.log('Cliente cadastrado com sucesso.') })
-           .catch((error) => { console.log('Erro ao incluir o cliente.') })
+           .then((response) => { 
+            console.log('Cliente cadastrado com sucesso.') })
+           .catch((error) => { 
+            console.log('Erro ao incluir o cliente.') })
        }
 }
-
-
     return (
 
         <div>

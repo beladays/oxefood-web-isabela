@@ -3,6 +3,9 @@ import './App.css';
 //import FormProduto from './views/produto/FormProduto';
 //import FormCliente from './views/cliente/FormCliente';
 //import FormEntregador from './views/entregador/FormEntregador';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 import Rotas from './Rotas';
 
 function App() {
@@ -10,7 +13,7 @@ function App() {
   return (
 
     <div className="App">
-      
+       <ToastContainer />
       <Rotas/>
 
       <div style={{marginTop: '6%'}}>
