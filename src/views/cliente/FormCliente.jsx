@@ -58,7 +58,7 @@ function formatarData(dataParam) {
 })
            .catch((error) => { 
            // console.log('Erro ao alter um cliente.') })
-           if (error.response.data.errors != undefined) {
+           if (error.response.data.errors !== undefined) {
        		for (let i = 0; i < error.response.data.errors.length; i++) {
 	       		notifyError(error.response.data.errors[i].defaultMessage)
 	    	}
@@ -66,16 +66,26 @@ function formatarData(dataParam) {
 		notifyError(error.response.data.message)
 	}
 })
+      } else { //Cadastro:
 
-        } else { //Cadastro:
-           axios.post("http://localhost:8080/api/cliente", clienteRequest)
-           .then((response) => { 
-            console.log('Cliente cadastrado com sucesso.') })
-           .catch((error) => { 
-            console.log('Erro ao incluir o cliente.') })
-       }
-}
+            axios.post("http://localhost:8080/api/cliente", clienteRequest)
+            .then((response) => { 
+                notifySuccess('Cliente cadastrado com sucesso.')
+            })
+            .catch((error) => { 
+                if (error.response.data.errors !== undefined) {
+                        for (let i = 0; i < error.response.data.errors.length; i++) {
+                            notifyError(error.response.data.errors[i].defaultMessage)
+                        }
+                } else {
+                    notifyError(error.response.data.message)
+                }
+            })
+        }
+	}
+
     return (
+        
 
         <div>
 
@@ -110,7 +120,7 @@ function formatarData(dataParam) {
 			                        onChange={e => setNome(e.target.value)}
                                 />
 
-                                <Form.Input
+                                    <Form.Input
                                     required
                                     fluid
                                     label='CPF'>
@@ -118,9 +128,9 @@ function formatarData(dataParam) {
                                         required
                                         mask="999.999.999-99"
                                         value={cpf}
-			                            onChange={e => setCpf(e.target.value)}
+				                        onChange={e => setCpf(e.target.value)}
                                     /> 
-                                </Form.Input>
+                                </Form.Input>  
 
                             </Form.Group>
                             

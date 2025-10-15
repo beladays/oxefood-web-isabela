@@ -4,6 +4,7 @@ import axios from "axios";
 import MenuSistema from '../../MenuSistema';
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormProduto () {
    const [codigo, setCodigo] = useState();
@@ -12,6 +13,9 @@ export default function FormProduto () {
    const [valorUnitario, setValorUnitario] = useState();
    const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
    const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
+//   const [listaCategoria, setListaCategoria] = useState([]);
+//  const [idCategoria, setIdCategoria] = useState();
+
 
    const { state } = useLocation();
    const [idProduto, setIdProduto] = useState();
@@ -27,14 +31,22 @@ useEffect(() => {
                	    	       setValorUnitario(response.data.valorUnitario)
                	    	       setTempoEntregaMaximo(response.data.tempoEntregaMaximo)
            		               setTempoEntregaMinimo(response.data.tempoEntregaMinimo)
-})
+                             //  setIdCategoria(response.data.categoria.id)
+                            })
        		}
+
+    //        axios.get("http://localhost:8080/api/categoriaproduto")
+    //   .then((response) => {
+    //       const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
+    //       setListaCategoria(dropDownCategorias);
+   //    })
+
    	}, [state])
 
    function salvar() {
 
 		let produtoRequest = {
-
+         //   idCategoria: idCategoria,
             codigo: codigo,
             titulo: titulo,
             descricao: descricao,
@@ -42,19 +54,40 @@ useEffect(() => {
             tempoEntregaMinimo: tempoEntregaMinimo,
             tempoEntregaMaximo: tempoEntregaMaximo
     	}
-
-	
-       if (idProduto != null) { //Alteração:
+    
+         if (idProduto != null) { //Alteração:
            axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
-           .then((response) => { console.log('Produto alterado com sucesso.') })
-           .catch((error) => { console.log('Erro ao alter um produto.') })
-       } else { //Cadastro:
-           axios.post("http://localhost:8080/api/produto", produtoRequest)
-           .then((response) => { console.log('Produto cadastrado com sucesso.') })
-           .catch((error) => { console.log('Erro ao incluir o produto.') })
-       }
+           .then((response) => {
+            // console.log('Produto alterado com sucesso.') })
+                notifySuccess('Produto alterado com sucesso.')
+})
+           .catch((error) => { 
+           // console.log('Erro ao alterar um produto.') })
+           if (error.response.data.errors !== undefined) {
+       		for (let i = 0; i < error.response.data.errors.length; i++) {
+	       		notifyError(error.response.data.errors[i].defaultMessage)
+	    	}
+	} else {
+		notifyError(error.response.data.message)
+	}
+})
+      } else { //Cadastro:
 
-    }
+            axios.post("http://localhost:8080/api/produto", produtoRequest)
+            .then((response) => { 
+                notifySuccess('Produto cadastrado com sucesso.')
+            })
+            .catch((error) => { 
+                if (error.response.data.errors !== undefined) {
+                        for (let i = 0; i < error.response.data.errors.length; i++) {
+                            notifyError(error.response.data.errors[i].defaultMessage)
+                        }
+                } else {
+                    notifyError(error.response.data.message)
+                }
+            })
+        }
+	}
     return(
         <div>
 
@@ -87,6 +120,7 @@ useEffect(() => {
                             value={titulo}
 			                onChange={e => setTitulo(e.target.value)}
                             />
+                 
 
                            <Form.Input
                            required
