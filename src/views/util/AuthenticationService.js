@@ -25,6 +25,7 @@ export const setupAxiosInterceptors = () => {
 export const createJWTToken = (token) => {
    return 'Bearer ' + token
 }
+
 export const logout = () => {
 
    localStorage.clear()
