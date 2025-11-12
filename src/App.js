@@ -6,9 +6,14 @@ import './App.css';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
+import { setupAxiosInterceptors } from './views/util/AuthenticationService';
+
+
 import Rotas from './Rotas';
 
 function App() {
+
+ setupAxiosInterceptors(); //resolve problema de requisições axios
 
   return (
 

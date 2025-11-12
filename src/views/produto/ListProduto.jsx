@@ -216,7 +216,7 @@ export default function ListProduto () {
                                 { listaProdutos.map(p => (
 
                                     <Table.Row key={p.id}>
-                                        <Table.Cell><Image src={`imagens_cadastradas/${p.imagem}`} /></Table.Cell>
+                                        <Table.Cell><Image src={`imagens_cadastradas/${p.imagem}`} size='small' /></Table.Cell>
                                         <Table.Cell>{p.codigo}</Table.Cell>
                                         <Table.Cell>{p.categoria.descricao}</Table.Cell>
                                         <Table.Cell>{p.titulo}</Table.Cell>
